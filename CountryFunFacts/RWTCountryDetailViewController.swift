@@ -98,6 +98,9 @@ func configureView() {
         answer4Button.setTitle(country!.quizAnswers[3],forState:UIControlState.Normal)
       }
     }
+  
+  let detailsButton: UIBarButtonItem = UIBarButtonItem(title: "Facts", style: UIBarButtonItemStyle.Plain, target: self, action: "displayFacts:")
+  navigationItem.rightBarButtonItem = detailsButton
   }
   
   override func updateViewConstraints() {
@@ -146,6 +149,23 @@ func configureView() {
     ontoPrimaryViewController primaryViewController: UIViewController!) -> Bool  {
       
       return true
+  }
+  
+  //private methods
+  func displayFacts(sender: UIBarButtonItem) {
+    let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+    
+    var contentViewController: RWTCountryPopoverViewController = storyboard.instantiateViewControllerWithIdentifier("RWTCountryPopoverViewController") as RWTCountryPopoverViewController
+    
+    contentViewController.country = country
+    contentViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
+    
+    var detailPopover: UIPopoverPresentationController = contentViewController.popoverPresentationController!
+    
+    detailPopover.barButtonItem = sender
+    detailPopover.permittedArrowDirections = UIPopoverArrowDirection.Any
+    
+    presentViewController(contentViewController, animated: true, completion: nil)
   }
 }
 
