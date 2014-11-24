@@ -172,7 +172,7 @@ func configureView() {
   
   // #pragma mark - UIAdaptivePresentationControllerDelegate
   func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
-    return UIModalPresentationStyle.CurrentContext
+    return UIModalPresentationStyle.None
   }
   
   func presentationController(controller: UIPresentationController, viewControllerForAdaptivePresentationStyle style: UIModalPresentationStyle) -> UIViewController? {
