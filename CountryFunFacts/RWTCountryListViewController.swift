@@ -59,11 +59,17 @@ class RWTCountryListViewController: UITableViewController, RWTCountryResultsCont
     sender: AnyObject?) {
       
       if segue.identifier == "showDetail" {
-        let indexPath = self.tableView.indexPathForSelectedRow()
-        let country = countries[indexPath!.row] as RWTCountry
-        ((segue.destinationViewController as
-          UINavigationController).topViewController
-          as RWTCountryDetailViewController).country = country
+        var country: RWTCountry? = nil
+        if searchController!.active {
+          let resultsController = searchController!.searchResultsController as RWTCountryResultsController
+          let indexPath = resultsController.tableView.indexPathForSelectedRow()
+          country = resultsController.filteredCountries[indexPath!.row] as? RWTCountry
+        } else {
+          let indexPath = self.tableView.indexPathForSelectedRow()
+          country = countries[indexPath!.row] as? RWTCountry
+        }
+        let topViewController = segue.destinationViewController.topViewController as RWTCountryDetailViewController
+        topViewController.country = country
       }
   }
   
@@ -119,5 +125,10 @@ class RWTCountryListViewController: UITableViewController, RWTCountryResultsCont
     
     tableView.tableHeaderView = searchController!.searchBar
     self.definesPresentationContext = true
+  }
+
+  // #pragma mark - RWTCountryResultsControllerDelegate
+  func searchCountrySelected() {
+    performSegueWithIdentifier("showDetail", sender: nil)
   }
 }
